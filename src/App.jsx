@@ -629,7 +629,7 @@ function BrokersShippersPage({ formRef, setPage }) {
       <div style={{ background:`linear-gradient(135deg,${C.navyDeep},${C.navy})`,padding:"140px clamp(1.5rem,6vw,6rem) 60px",textAlign:"center" }}>
         <div style={{ maxWidth:1300,margin:"0 auto" }}>
           <div style={{ fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.12em",color:"rgba(255,255,255,0.5)",marginBottom:16 }}>For Brokers/3PLs & Shippers</div>
-          <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>AI Agent for load booking for <Em>Carrier Sales & Logistics Teams</Em></h1>
+          <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>AI Agent for load booking for <Em>Carrier Sales Teams</Em></h1>
           <p style={{ fontSize:18,color:C.midGray,maxWidth:650,margin:"0 auto 32px",lineHeight:1.6 }}>Cover more loads at better margins — without the phone tag. AI makes outbound calls to carriers, handles inbound carrier calls, and manages email to collect capacity, negotiate rates, and surface the best-fit options.</p>
           <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer"><Btn primary style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn></a>
         </div>
