@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const PAGES = { HOME: "home", CARRIERS: "carriers", BROKERS: "brokers", CARRIER_WF: "carrier-workflows", BROKER_WF: "broker-workflows" };
+const PAGES = { HOME: "home", CARRIERS: "carriers", BROKERS: "brokers", CARRIER_WF: "carrier-workflows", BROKER_WF: "broker-workflows", TERMS: "terms", PRIVACY: "privacy" };
 
 const TESTIMONIALS_CARRIER = [
   { quote: "Channel19's AI-powered solution optimizes our load operations efficiently. The system saves us significant time and increases margins.", author: "Aman Tamana, CEO", company: "Tamana Truck Lines" },
@@ -52,30 +52,28 @@ const Section = ({ children, style:s }) => <section style={{ padding:"clamp(4rem
 function Logo({ height=30, light, onClick }) {
   return (
     <div onClick={onClick} style={{ cursor:"pointer",display:"flex",alignItems:"center" }}>
-      <img src="channel19-logo.png" alt="Channel19" style={{ height,objectFit:"contain",filter:light?"brightness(0) invert(1)":"none" }} />
+      <img src="channel19-logo.svg" alt="Channel19" style={{ height,objectFit:"contain",filter:light?"brightness(0) invert(1)":"none" }} />
     </div>
   );
 }
 
-function Nav({ page, setPage, onCta }) {
+function Nav({ page, setPage }) {
   const [scrolled,setScrolled] = useState(false);
   const [open,setOpen] = useState(false);
   useEffect(() => { const h = () => setScrolled(window.scrollY>40); window.addEventListener("scroll",h); return () => window.removeEventListener("scroll",h); },[]);
   const go = (p) => { setPage(p); setOpen(false); window.scrollTo(0,0); };
   const items = [[PAGES.HOME,"Home"],[PAGES.CARRIERS,"Carriers"],[PAGES.BROKERS,"Brokers/3PLs & Shippers"]];
   const loginUrl = "https://fleetapp.channel19.io/login";
-  const blogUrl = "https://www.channel19.ai/blog";
   return (
     <>
       <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:100,height:72,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 clamp(1rem,4vw,3rem)",background:scrolled?"rgba(255,255,255,0.97)":"rgba(255,255,255,0.92)",backdropFilter:"blur(20px)",borderBottom:`1px solid ${scrolled?"rgba(27,42,74,0.08)":"rgba(27,42,74,0.04)"}`,transition:"all 0.3s" }}>
-        <Logo height={28} onClick={() => go(PAGES.HOME)} />
+        <Logo height={32} onClick={() => go(PAGES.HOME)} />
         <div style={{ display:"flex",alignItems:"center" }}>
           {items.map(([p,l]) => (
             <button key={p} onClick={() => go(p)} style={{ background:"none",border:"none",cursor:"pointer",fontFamily:C.sans,fontSize:14,fontWeight:500,color:(page===p||(p===PAGES.CARRIERS&&page===PAGES.CARRIER_WF)||(p===PAGES.BROKERS&&page===PAGES.BROKER_WF))?C.navy:C.darkGray,padding:"8px 16px",borderRadius:8,transition:"color 0.2s",display:"var(--c19-nav-link,inline-block)" }}>{l}</button>
           ))}
-          <a href={blogUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily:C.sans,fontSize:14,fontWeight:500,color:C.darkGray,padding:"8px 16px",textDecoration:"none",display:"var(--c19-nav-link,inline-block)" }}>Blog</a>
           <a href={loginUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily:C.sans,fontSize:14,fontWeight:500,color:C.darkGray,padding:"8px 16px",textDecoration:"none",display:"var(--c19-nav-link,inline-block)" }}>Login</a>
-          <button onClick={() => { onCta(); setOpen(false); }} style={{ background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:14,padding:"10px 24px",borderRadius:10,border:"none",cursor:"pointer",marginLeft:12,display:"var(--c19-nav-link,inline-block)" }}>Book a Demo</button>
+          <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer" style={{ background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:14,padding:"10px 24px",borderRadius:10,border:"none",cursor:"pointer",marginLeft:12,display:"var(--c19-nav-link,inline-block)",textDecoration:"none" }}>Book a Demo</a>
           <button onClick={() => setOpen(!open)} style={{ display:"var(--c19-nav-toggle,none)",background:"none",border:"none",cursor:"pointer",padding:8 }}>
             <span style={{ display:"block",width:22,height:2,background:C.navy,borderRadius:2,marginBottom:5 }}/>
             <span style={{ display:"block",width:22,height:2,background:C.navy,borderRadius:2,marginBottom:5 }}/>
@@ -86,9 +84,8 @@ function Nav({ page, setPage, onCta }) {
       {open && (
         <div style={{ position:"fixed",top:72,left:0,right:0,bottom:0,background:"rgba(255,255,255,0.98)",zIndex:99,padding:"2rem",display:"flex",flexDirection:"column",gap:8 }}>
           {items.map(([p,l]) => <button key={p} onClick={() => go(p)} style={{ background:"none",border:"none",cursor:"pointer",fontFamily:C.sans,fontSize:20,fontWeight:500,color:C.navy,padding:"16px 0",textAlign:"left",borderBottom:"1px solid rgba(27,42,74,0.08)" }}>{l}</button>)}
-          <a href={blogUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily:C.sans,fontSize:20,fontWeight:500,color:C.navy,padding:"16px 0",textDecoration:"none",borderBottom:"1px solid rgba(27,42,74,0.08)",display:"block" }}>Blog</a>
           <a href={loginUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily:C.sans,fontSize:20,fontWeight:500,color:C.navy,padding:"16px 0",textDecoration:"none",borderBottom:"1px solid rgba(27,42,74,0.08)",display:"block" }}>Login</a>
-          <button onClick={() => { onCta(); setOpen(false); }} style={{ background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:16,padding:"14px 32px",borderRadius:12,border:"none",cursor:"pointer",marginTop:16 }}>Book a Demo →</button>
+          <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer" style={{ background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:16,padding:"14px 32px",borderRadius:12,border:"none",cursor:"pointer",marginTop:16,textDecoration:"none",display:"inline-block" }}>Book a Demo →</a>
         </div>
       )}
       <style>{`@media(max-width:900px){:root{--c19-nav-link:none !important;--c19-nav-toggle:flex !important;}}`}</style>
@@ -185,7 +182,7 @@ function TestimonialCards({ items }) {
 function LeadForm({ source }) {
   const [done,setDone] = useState(false);
   const [sending,setSending] = useState(false);
-  const [f,setF] = useState({ firstName:"",lastName:"",email:"",phone:"",company:"",role:"",fleetSize:"",message:"" });
+  const [f,setF] = useState({ firstName:"",lastName:"",email:"",phone:"",company:"",role:"",message:"" });
   const up = (k) => (e) => setF({...f,[k]:e.target.value});
   const inp = { background:C.offWhite,border:"1px solid rgba(27,42,74,0.1)",borderRadius:10,padding:"14px 16px",fontFamily:C.sans,fontSize:14,color:C.navy,width:"100%",outline:"none" };
   const CALENDLY = "https://calendly.com/tonysingh/";
@@ -193,7 +190,7 @@ function LeadForm({ source }) {
     if(!f.firstName||!f.email||!f.company) return;
     setSending(true);
     try {
-      await fetch("https://formspree.io/f/support@channel19.io", {
+      await fetch("https://formspree.io/f/tony@channel19.io", {
         method:"POST",
         headers:{"Content-Type":"application/json","Accept":"application/json"},
         body:JSON.stringify({...f,source,_subject:`New Demo Request from ${f.firstName} ${f.lastName} (${f.company}) — ${source}`})
@@ -229,13 +226,6 @@ function LeadForm({ source }) {
           <option value="other">Other</option>
         </select>
       </div>
-      <select style={{...inp,appearance:"none",cursor:"pointer",marginBottom:14}} value={f.fleetSize} onChange={up("fleetSize")}>
-        <option value="">Fleet / team size</option>
-        <option value="1-10">1–10</option>
-        <option value="11-50">11–50</option>
-        <option value="51-200">51–200</option>
-        <option value="200+">200+</option>
-      </select>
       <textarea style={{...inp,resize:"vertical",minHeight:90,marginBottom:14,display:"block"}} placeholder="Anything else?" value={f.message} onChange={up("message")} />
       <button onClick={submit} disabled={sending||!f.firstName||!f.email||!f.company}
         style={{ width:"100%",background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:16,padding:16,borderRadius:12,border:"none",cursor:"pointer",opacity:(!f.firstName||!f.email||!f.company)?0.5:1 }}>
@@ -249,18 +239,19 @@ function ContactBlock({ label,title,desc,source,formRef }) {
   return (
     <div style={{ padding:"clamp(4rem,8vw,7rem) clamp(1.5rem,6vw,6rem)",maxWidth:1300,margin:"0 auto",position:"relative" }}>
       <div ref={formRef} style={{ position:"absolute",top:-80 }}/>
-      <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(2rem,5vw,5rem)",alignItems:"start" }}>
-        <div>
-          <SectionLabel>{label}</SectionLabel>
-          <SectionTitle>{title}</SectionTitle>
-          <p style={{ fontSize:16,color:C.darkGray,maxWidth:500,lineHeight:1.6,marginBottom:24 }}>{desc}</p>
-          {["AI handles calls & email — you keep control","Works with your existing TMS & load boards","Live in days, not months","No per-seat pricing — pay for outcomes"].map(t => (
-            <div key={t} style={{ display:"flex",alignItems:"center",gap:12,color:C.navy,fontSize:15,marginBottom:12 }}>
+      <div style={{ textAlign:"center",maxWidth:700,margin:"0 auto" }}>
+        <SectionLabel>{label}</SectionLabel>
+        <SectionTitle>{title}</SectionTitle>
+        <p style={{ fontSize:16,color:C.darkGray,lineHeight:1.6,marginBottom:32 }}>{desc}</p>
+        <div style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:12,marginBottom:32 }}>
+          {["AI handles calls & email — you keep control","Integrates with your existing tools (TMS, Communication, Compliance, Loadboards etc.)","Live in days, not months","No per-seat pricing — pay for outcomes"].map(t => (
+            <div key={t} style={{ display:"flex",alignItems:"center",gap:8,color:C.navy,fontSize:14 }}>
               <span style={{ color:C.green,fontWeight:700 }}>✓</span> {t}
             </div>
           ))}
         </div>
-        <LeadForm source={source} />
+        <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer" style={{ display:"inline-block",background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:16,padding:"16px 40px",borderRadius:12,textDecoration:"none",transition:"opacity 0.2s" }}>Book a Demo →</a>
+        <p style={{ fontSize:14,color:C.darkGray,marginTop:16 }}>Or email us at <a href="mailto:tony@channel19.io" style={{ color:C.navy,textDecoration:"underline" }}>tony@channel19.io</a></p>
       </div>
     </div>
   );
@@ -274,10 +265,10 @@ function Footer({ setPage }) {
       <div style={{ maxWidth:1300,margin:"0 auto" }}>
         <div style={{ display:"grid",gridTemplateColumns:"2fr 1fr",gap:"3rem",marginBottom:"3rem" }}>
           <div>
-            <Logo height={26} light onClick={() => go(PAGES.HOME)} />
+            <Logo height={32} light onClick={() => go(PAGES.HOME)} />
             <p style={{ color:"rgba(255,255,255,0.5)",fontSize:14,lineHeight:1.6,maxWidth:300,marginTop:16 }}>AI agents that call, handle inbound calls, and manage email to help book loads in minutes instead of hours.</p>
             <div style={{ marginTop:16,fontSize:13,color:"rgba(255,255,255,0.5)" }}>
-              <a href="mailto:support@channel19.io" style={{ color:"rgba(255,255,255,0.6)",textDecoration:"none" }}>support@channel19.io</a>
+              <a href="mailto:tony@channel19.io" style={{ color:"rgba(255,255,255,0.6)",textDecoration:"none" }}>tony@channel19.io</a>
               <span style={{ margin:"0 8px" }}>·</span>
               <a href="tel:+15304000983" style={{ color:"rgba(255,255,255,0.6)",textDecoration:"none" }}>+1 (530) 400-0983</a>
             </div>
@@ -286,14 +277,13 @@ function Footer({ setPage }) {
             <h4 style={{ fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.1em",color:"rgba(255,255,255,0.4)",marginBottom:16 }}>Solutions</h4>
             <button style={lk} onClick={() => go(PAGES.CARRIERS)}>For Carriers</button>
             <button style={lk} onClick={() => go(PAGES.BROKERS)}>For Brokers/3PLs & Shippers</button>
-            <a href="https://www.channel19.ai/blog" target="_blank" rel="noopener noreferrer" style={{...lk,textDecoration:"none"}}>Blog</a>
           </div>
         </div>
         <div style={{ borderTop:"1px solid rgba(255,255,255,0.08)",paddingTop:24,display:"flex",justifyContent:"space-between",alignItems:"center",fontSize:12,color:"rgba(255,255,255,0.4)",flexWrap:"wrap",gap:16 }}>
           <span>© 2026 Channel19, Inc. All rights reserved.</span>
           <div style={{ display:"flex",alignItems:"center",gap:20 }}>
-            <a href="https://www.channel19.ai/terms-of-use" target="_blank" rel="noopener noreferrer" style={{ color:"rgba(255,255,255,0.4)",textDecoration:"none",fontSize:12 }}>Terms of Use</a>
-            <a href="https://www.channel19.ai/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ color:"rgba(255,255,255,0.4)",textDecoration:"none",fontSize:12 }}>Privacy Policy</a>
+            <button onClick={() => { go(PAGES.TERMS); }} style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,0.4)",textDecoration:"none",fontSize:12,fontFamily:C.sans,padding:0 }}>Terms of Use</button>
+            <button onClick={() => { go(PAGES.PRIVACY); }} style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,0.4)",textDecoration:"none",fontSize:12,fontFamily:C.sans,padding:0 }}>Privacy Policy</button>
             <div style={{ display:"flex",gap:14,marginLeft:8 }}>
               <a href="https://www.linkedin.com/company/channel19" target="_blank" rel="noopener noreferrer" style={{ color:"rgba(255,255,255,0.5)",textDecoration:"none",fontSize:16 }} title="LinkedIn">in</a>
               <a href="https://x.com/Channel19Inc" target="_blank" rel="noopener noreferrer" style={{ color:"rgba(255,255,255,0.5)",textDecoration:"none",fontSize:14 }} title="X / Twitter">𝕏</a>
@@ -307,7 +297,7 @@ function Footer({ setPage }) {
 }
 
 // ═══ HOME PAGE ═══
-function HomePage({ setPage, onCta, formRef }) {
+function HomePage({ setPage, formRef }) {
   return (
     <>
       <section style={{ minHeight:"100vh",display:"flex",alignItems:"center",padding:"120px clamp(1.5rem,6vw,6rem) 80px",position:"relative",overflow:"hidden",background:`linear-gradient(135deg,${C.navyDeep} 0%,${C.navy} 100%)` }}>
@@ -319,13 +309,13 @@ function HomePage({ setPage, onCta, formRef }) {
               AI Agents for Freight
             </div>
             <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.8rem,5.5vw,4.5rem)",lineHeight:1.08,fontWeight:400,color:C.white,marginBottom:24,letterSpacing:"-0.02em",animation:"c19fadeUp 0.6s ease-out 0.1s both" }}>
-              AI agents that support humans to book loads in <Em>minutes</Em> instead of hours
+              AI agents that help Dispatch & Carrier Sales teams book loads in <Em>minutes</Em> instead of hours
             </h1>
             <p style={{ fontSize:"clamp(1rem,1.8vw,1.15rem)",color:C.midGray,lineHeight:1.65,maxWidth:520,marginBottom:40,animation:"c19fadeUp 0.6s ease-out 0.2s both" }}>
               Dispatch and Carrier Sales teams use our AI agents that call, email, and text to help book loads 10× faster — handling outbound calls, inbound calls, and email.
             </p>
             <div style={{ display:"flex",gap:14,flexWrap:"wrap",animation:"c19fadeUp 0.6s ease-out 0.3s both" }}>
-              <Btn primary onClick={onCta} style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn>
+              <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer"><Btn primary style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn></a>
               <Btn onClick={() => { setPage(PAGES.CARRIERS); window.scrollTo(0,0); }} style={{ color:"rgba(255,255,255,0.9)",border:"1px solid rgba(255,255,255,0.2)" }}>See How It Works</Btn>
             </div>
           </div>
@@ -341,7 +331,7 @@ function HomePage({ setPage, onCta, formRef }) {
                 <span style={{ width:10,height:10,borderRadius:"50%",background:C.green,display:"inline-block" }}/>
               </div>
               <div style={{ fontFamily:C.mono,fontSize:12.5,lineHeight:2,color:C.midGray }}>
-                <span style={{ color:"#60A5FA" }}>agent</span> → Dialing <span style={{ color:C.white }}>broker #4827</span> for CHI→DAL<br/>
+                <span style={{ color:"#60A5FA" }}>agent</span> → Dialing <span style={{ color:C.white }}>ABC Logistics</span> for CHI→DAL<br/>
                 <span style={{ color:C.green }}>connected</span> → Navigating IVR… hold music…<br/>
                 <span style={{ color:"#60A5FA" }}>agent</span> → "53' dry van, rate to Dallas?"<br/>
                 <span style={{ color:"#F59E0B" }}>broker</span> → "$2,850 all-in, pickup tomorrow 8am"<br/>
@@ -357,7 +347,7 @@ function HomePage({ setPage, onCta, formRef }) {
       </section>
 
       <Section style={{ paddingTop:"clamp(3rem,5vw,5rem)",paddingBottom:0 }}>
-        <Stats items={[{value:"$50–$150",label:"Higher revenue per load"},{value:"2–3×",label:"More loads booked"},{value:"10×",label:"More options evaluated"},{value:"100%",label:"Calls handled"}]}/>
+        <Stats items={[{value:"2–3×",label:"More loads booked"},{value:"10×",label:"More options evaluated"},{value:"100%",label:"Calls handled"}]}/>
       </Section>
 
       <Section>
@@ -403,19 +393,19 @@ function HomePage({ setPage, onCta, formRef }) {
       <Section style={{ textAlign:"center" }}>
         <SectionLabel>Trusted By</SectionLabel>
         <SectionTitle>Customers of varying sizes stay ahead with <Em>Channel19</Em></SectionTitle>
-        <div style={{ display:"flex",flexWrap:"wrap",justifyContent:"center",alignItems:"center",gap:"clamp(24px,4vw,48px)",marginTop:32 }}>
+        <div style={{ display:"flex",flexWrap:"wrap",justifyContent:"center",alignItems:"center",gap:"clamp(32px,5vw,56px)",marginTop:32 }}>
           {[
-            { src:"logo-tamana.png",alt:"Tamana Truck Lines",h:40 },
+            { src:"logo-tamana.png",alt:"Tamana Truck Lines",h:48 },
             { src:"logo-best-carrier.png",alt:"Best Carrier Solutions",h:40 },
-            { src:"logo-kam-way.png",alt:"Kam-Way Transportation",h:40 },
-            { src:"logo-inland-xpress.png",alt:"Inland Xpress",h:36 },
-            { src:"logo-js-drayage.png",alt:"J&S Drayage",h:32 },
-            { src:"logo-royal-carrier.svg",alt:"Royal Carrier LLC",h:40 },
+            { src:"logo-kam-way.png",alt:"Kam-Way Transportation",h:44 },
+            { src:"logo-inland-xpress.png",alt:"Inland Xpress",h:32 },
+            { src:"logo-js-drayage.png",alt:"J&S Drayage",h:28 },
+            { src:"logo-royal-carrier.png",alt:"Royal Carrier LLC",h:48 },
             { src:"logo-transjet.png",alt:"TransJet Cargo",h:36 },
-            { src:"logo-grtm.avif",alt:"GRTM",h:36 },
+            { src:"logo-grtm.png",alt:"GRTM",h:40 },
             { src:"logo-sunrise.png",alt:"Sunrise Trucking",h:40 },
           ].map((logo,i) => (
-            <img key={i} src={logo.src} alt={logo.alt} style={{ height:logo.h,objectFit:"contain",opacity:0.85,filter:"grayscale(30%)",transition:"all 0.3s" }} />
+            <img key={i} src={logo.src} alt={logo.alt} style={{ height:logo.h,objectFit:"contain",opacity:0.7,filter:"grayscale(100%)",transition:"all 0.3s" }} onMouseOver={e=>{e.target.style.opacity="1";e.target.style.filter="grayscale(0%)"}} onMouseOut={e=>{e.target.style.opacity="0.7";e.target.style.filter="grayscale(100%)"}} />
           ))}
         </div>
       </Section>
@@ -439,7 +429,52 @@ function HomePage({ setPage, onCta, formRef }) {
 }
 
 // ═══ CARRIERS PAGE ═══
-function CarriersPage({ onCta, formRef, setPage }) {
+function CarriersPage({ formRef, setPage }) {
+  const [wfTab,setWfTab] = useState(0);
+  const carrierWfTabs = [
+    { tab:"Outbound Calling", title:"Call brokers from load boards", desc:"The AI agent dials brokers listed on load boards, navigates IVRs, handles hold times, and gathers complete load details — all without dispatcher intervention.",
+      bullets:["Dials multiple brokers in parallel from DAT, Truckstop, 123Loadboard","Navigates IVRs and waits on hold automatically","Collects origin/destination, rate, equipment, weight, appointment times","Structures every detail into load cards for comparison"],
+      conversation:[
+        { from:"AI",color:C.navy,text:"Dialing ABC Logistics from DAT for CHI→DAL lane. 53' dry van, pickup tomorrow." },
+        { from:"AI",color:C.navy,text:"Connected. Navigating IVR... on hold... connected to freight desk." },
+        { from:"B",color:C.navyMid,text:"Hey, yeah we've got that load. 42,000 lbs, pickup at 8am, delivering to Dallas Thursday. Rate is $2,850 all-in." },
+        { from:"AI",color:C.navy,text:"Got it. Can we do $2,650? We've got a truck available in Chicago ready to roll." },
+        { from:"B",color:C.navyMid,text:"I can do $2,700. That's the best I can offer." },
+        { from:"AI",color:C.navy,text:"$2,700 works. Sending to dispatcher for approval." },
+      ]},
+    { tab:"Inbound Calls", title:"Answer broker calls 24/7", desc:"When brokers call with load offers, the AI agent picks up instantly — qualifies the load, collects all details, and routes the opportunity to your dispatcher.",
+      bullets:["Answers inbound broker calls instantly — no missed opportunities","Qualifies loads against your lane preferences and equipment","Collects full load details and creates structured load cards","Routes qualified loads to dispatcher with one-click accept/decline"],
+      conversation:[
+        { from:"B",color:C.navyMid,text:"Hi, I'm calling from XYZ Logistics. I've got a reefer load from Atlanta to Miami, 38,000 lbs, pickup Monday at 6am. You guys have a truck?" },
+        { from:"AI",color:C.navy,text:"Let me check availability. We do have a reefer unit available in Atlanta. What's the rate and delivery timeline?" },
+        { from:"B",color:C.navyMid,text:"$3,200 all-in, deliver by Wednesday noon. Temperature control at 34°F." },
+        { from:"AI",color:C.navy,text:"That fits our requirements. I'm routing this to the dispatcher now for approval. Expect a confirmation within 15 minutes." },
+      ]},
+    { tab:"Email Processing", title:"Parse load emails automatically", desc:"The AI agent reads incoming load emails from brokers, extracts load details and rate sheets, and adds them to your comparison dashboard — no manual data entry.",
+      bullets:["Monitors inbox for load offers from brokers","Parses rate sheets, PDFs, and unstructured email text","Extracts origin, destination, rate, equipment, appointments","Auto-responds to confirm interest or request more details"],
+      conversation:[
+        { from:"E",color:"#3B82F6",text:"New email from dispatch@abcfreight.com — 'Available: DRY VAN, Memphis→Nashville, 40K lbs, $1,800, pickup Tue 2pm'",file:"rate-sheet-0612.pdf" },
+        { from:"AI",color:C.navy,text:"Parsed email. Load details extracted: Memphis→Nashville, dry van, 40,000 lbs, $1,800, pickup Tuesday 2:00 PM. Adding to load comparison dashboard." },
+        { from:"AI",color:C.navy,text:"Auto-replied to broker confirming interest. Load card created and sent to dispatcher for review." },
+      ]},
+    { tab:"Negotiation", title:"Negotiate rates within your guardrails", desc:"The AI agent negotiates on calls and via email using rules you set — floor/ceiling prices, target margins, and lane-specific preferences.",
+      bullets:["Negotiates within dispatcher-defined rate guardrails","Applies lane-specific rules and margin targets","Counters intelligently based on market context","Escalates to dispatcher when outside parameters"],
+      conversation:[
+        { from:"B",color:C.navyMid,text:"Best I can do is $2,900 for that Dallas load." },
+        { from:"AI",color:C.navy,text:"Our target for this lane is $2,600–$2,750. Can you come down to $2,700?" },
+        { from:"B",color:C.navyMid,text:"$2,750 is my floor." },
+        { from:"AI",color:C.navy,text:"$2,750 is within range. Confirming with dispatcher now." },
+        { from:"D",color:C.green,text:"✓ Approved. Book it." },
+        { from:"AI",color:C.navy,text:"Load booked at $2,750. Rate confirmation sent. Pushing to TMS." },
+      ]},
+    { tab:"Booking & Handoff", title:"Book loads and keep dispatchers in control", desc:"The AI agent books loads autonomously within your rules or sends to the dispatcher for one-click approval. Dispatchers can join any live call instantly.",
+      bullets:["One-click approval workflow with full load context","Autopilot mode: books within rules, escalates exceptions","Co-pilot mode: dispatcher reviews and approves in real time","Instant 'Join Call' button to take over any conversation"],
+      conversation:[
+        { from:"AI",color:C.navy,text:"3 load options ready for review. Best match: CHI→DAL at $2,700, 53' dry van, pickup 8am tomorrow. Margin: +12% above target." },
+        { from:"D",color:C.green,text:"Option 1 looks good. Approve." },
+        { from:"AI",color:C.navy,text:"Load booked. Rate confirmation sent to broker. Load details pushed to TMS. Confirmation #TL-48271." },
+      ]},
+  ];
   return (
     <>
       <div style={{ background:`linear-gradient(135deg,${C.navyDeep},${C.navy})`,padding:"140px clamp(1.5rem,6vw,6rem) 60px",textAlign:"center" }}>
@@ -447,10 +482,10 @@ function CarriersPage({ onCta, formRef, setPage }) {
           <div style={{ fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.12em",color:"rgba(255,255,255,0.5)",marginBottom:16 }}>For-Hire Carriers</div>
           <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>AI Agent for load booking for <Em>Dispatchers</Em></h1>
           <p style={{ fontSize:18,color:C.midGray,maxWidth:620,margin:"0 auto 32px",lineHeight:1.6 }}>Makes outbound calls to brokers from load boards, handles inbound broker calls, and processes load emails — navigating IVRs, negotiating rates, and booking the best loads while your dispatchers stay in full control.</p>
-          <Btn primary onClick={onCta} style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn>
+          <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer"><Btn primary style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn></a>
         </div>
       </div>
-      <Section style={{ paddingTop:"clamp(3rem,5vw,5rem)",paddingBottom:0 }}><Stats items={[{value:"$50–$150",label:"Higher revenue per load"},{value:"2–3×",label:"More loads booked"},{value:"10×",label:"More options evaluated"},{value:"100%",label:"Calls handled"}]}/></Section>
+      <Section style={{ paddingTop:"clamp(3rem,5vw,5rem)",paddingBottom:0 }}><Stats items={[{value:"2–3×",label:"More loads booked"},{value:"10×",label:"More options evaluated"},{value:"100%",label:"Calls handled"}]}/></Section>
       <Section>
         <SectionLabel>How It Works</SectionLabel>
         <SectionTitle>From load board to <Em>booked load</Em> in minutes</SectionTitle>
@@ -462,7 +497,13 @@ function CarriersPage({ onCta, formRef, setPage }) {
           { title:"Live Transcription & Structuring",desc:"Captures every call and email, organizing details into structured load cards for side-by-side comparison." },
           { title:"Rate Negotiation & Booking",desc:"Negotiates within your guardrails. Books loads autonomously or sends to the dispatcher for one-click approval. Dispatchers can join any call instantly." },
         ]}/>
-        <div style={{ marginTop:24 }}><Btn onClick={() => { setPage(PAGES.CARRIER_WF); window.scrollTo(0,0); }}>See Detailed Workflows →</Btn></div>
+      </Section>
+      <Divider/>
+      <Section>
+        <SectionLabel>Detailed Workflows</SectionLabel>
+        <SectionTitle>How the AI agent fits into <Em>every step</Em></SectionTitle>
+        <WorkflowTabs tabs={carrierWfTabs} activeTab={wfTab} setActiveTab={setWfTab} />
+        <WorkflowDetail step={carrierWfTabs[wfTab]} />
       </Section>
       <Divider/>
       <Section>
@@ -516,14 +557,14 @@ function CarriersPage({ onCta, formRef, setPage }) {
         <SectionTitle>Carriers of all sizes use <Em>Channel19</Em></SectionTitle>
         <div style={{ display:"flex",flexWrap:"wrap",justifyContent:"center",alignItems:"center",gap:"clamp(24px,4vw,48px)",marginTop:32 }}>
           {[
-            { src:"logo-tamana.png",alt:"Tamana Truck Lines",h:40 },
+            { src:"logo-tamana.png",alt:"Tamana Truck Lines",h:48 },
             { src:"logo-best-carrier.png",alt:"Best Carrier Solutions",h:40 },
-            { src:"logo-inland-xpress.png",alt:"Inland Xpress",h:36 },
-            { src:"logo-js-drayage.png",alt:"J&S Drayage",h:32 },
-            { src:"logo-royal-carrier.svg",alt:"Royal Carrier LLC",h:40 },
+            { src:"logo-inland-xpress.png",alt:"Inland Xpress",h:32 },
+            { src:"logo-js-drayage.png",alt:"J&S Drayage",h:28 },
+            { src:"logo-royal-carrier.png",alt:"Royal Carrier LLC",h:48 },
             { src:"logo-sunrise.png",alt:"Sunrise Trucking",h:40 },
           ].map((logo,i) => (
-            <img key={i} src={logo.src} alt={logo.alt} style={{ height:logo.h,objectFit:"contain",opacity:0.85,filter:"grayscale(30%)",transition:"all 0.3s" }} />
+            <img key={i} src={logo.src} alt={logo.alt} style={{ height:logo.h,objectFit:"contain",opacity:0.7,filter:"grayscale(100%)",transition:"all 0.3s" }} onMouseOver={e=>{e.target.style.opacity="1";e.target.style.filter="grayscale(0%)"}} onMouseOut={e=>{e.target.style.opacity="0.7";e.target.style.filter="grayscale(100%)"}} />
           ))}
         </div>
       </Section>
@@ -534,22 +575,69 @@ function CarriersPage({ onCta, formRef, setPage }) {
 }
 
 // ═══ BROKERS/3PLs & SHIPPERS PAGE (COMBINED) ═══
-function BrokersShippersPage({ onCta, formRef, setPage }) {
+function BrokersShippersPage({ formRef, setPage }) {
+  const [wfTab,setWfTab] = useState(0);
+  const brokerWfTabs = [
+    { tab:"Outbound Calling", title:"Call carriers from your tools", desc:"The AI agent dials carriers from your TMS, load boards, and compliance tools — collecting capacity, equipment details, and rates at scale.",
+      bullets:["Dials carriers in parallel from your TMS, load boards, and compliance tools","Navigates IVRs, handles hold times automatically","Collects capacity, lane fit, equipment, and rate details","Structures every interaction into carrier cards for comparison"],
+      conversation:[
+        { from:"AI",color:C.navy,text:"Dialing ABC Trucking for open load ATL→MIA. Reefer, 38K lbs, pickup Monday." },
+        { from:"AI",color:C.navy,text:"Connected to dispatch. Collecting capacity details..." },
+        { from:"C",color:"#F59E0B",text:"Yeah, we have a reefer available in Atlanta. What's the rate?" },
+        { from:"AI",color:C.navy,text:"We're offering $2,900 for ATL→MIA, reefer, pickup Monday 6am, deliver Wednesday." },
+        { from:"C",color:"#F59E0B",text:"Can you do $3,100? It's a long haul with temperature control." },
+        { from:"AI",color:C.navy,text:"I can go to $3,000. That's our best for this lane." },
+        { from:"C",color:"#F59E0B",text:"$3,000 works. Let's book it." },
+        { from:"AI",color:C.navy,text:"Confirmed. Sending to carrier sales rep for final approval." },
+      ]},
+    { tab:"Inbound Calls", title:"Answer carrier calls 24/7", desc:"When carriers call in with available capacity, the AI agent answers instantly — qualifies the carrier, collects details, and routes the best options to your reps.",
+      bullets:["Answers inbound carrier calls instantly — never miss available capacity","Verifies carrier compliance and authority in real time","Collects equipment, availability, lane preferences, and rate expectations","Routes qualified carriers to reps with full context"],
+      conversation:[
+        { from:"C",color:"#F59E0B",text:"Hey, this is Mike from Heartland Transport. I've got a dry van available in Dallas, looking for loads going east. What do you have?" },
+        { from:"AI",color:C.navy,text:"Thanks Mike. Let me check. We have an open load DAL→ATL, 42K lbs, dry van, pickup Wednesday. Rate is $2,400. Interested?" },
+        { from:"C",color:"#F59E0B",text:"That works for us. We can do pickup at 10am." },
+        { from:"AI",color:C.navy,text:"Great. Verifying your authority and insurance now... Confirmed, all clear. Routing to our carrier sales rep for booking confirmation." },
+      ]},
+    { tab:"Email Management", title:"Process carrier emails automatically", desc:"The AI agent monitors your inbox for carrier capacity offers, parses details, verifies compliance, and adds qualified carriers to your options.",
+      bullets:["Monitors inbox for carrier capacity emails and rate offers","Parses unstructured emails and attached rate sheets","Verifies carrier compliance before surfacing to reps","Auto-responds to acknowledge and request additional details"],
+      conversation:[
+        { from:"E",color:"#3B82F6",text:"New email from dispatch@heartlandtransport.com — 'We have 3 dry vans available this week in TX. Looking for loads to East Coast or Midwest.'",file:"capacity-sheet.pdf" },
+        { from:"AI",color:C.navy,text:"Parsed email. Carrier: Heartland Transport. 3 dry vans available in TX. Looking for eastbound/midwest loads. Checking compliance..." },
+        { from:"AI",color:C.navy,text:"Carrier verified: MC active, insurance current, safety rating satisfactory. Matched to 2 open loads. Carrier card created and sent to rep." },
+        { from:"AI",color:C.navy,text:"Auto-replied: 'Thanks Mike, we have loads that may fit. A rep will follow up shortly.'" },
+      ]},
+    { tab:"Negotiation", title:"Negotiate buy rates within your guardrails", desc:"The AI agent negotiates with carriers using your margin rules, rate bands, and lane-specific parameters — lowering buy rates while maintaining coverage speed.",
+      bullets:["Negotiates within rep-defined rate guardrails and margin targets","Applies lane-specific rules and historical rate data","Counters carrier asks intelligently","Escalates to rep when outside parameters"],
+      conversation:[
+        { from:"C",color:"#F59E0B",text:"We need $3,200 for that Miami load." },
+        { from:"AI",color:C.navy,text:"Our target buy rate for this lane is $2,800–$3,000. Can you come down to $3,000?" },
+        { from:"C",color:"#F59E0B",text:"$3,050 is the lowest I can go." },
+        { from:"AI",color:C.navy,text:"$3,050 is within our range. Confirming with the rep now." },
+        { from:"D",color:C.green,text:"✓ Approved at $3,050. Good margin." },
+        { from:"AI",color:C.navy,text:"Booked. Rate confirmation sent to carrier. Load updated in TMS." },
+      ]},
+    { tab:"Booking & Handoff", title:"Cover loads and keep reps in control", desc:"The AI agent books carriers autonomously or routes to your rep for one-click approval. Reps can take over any live call at any moment.",
+      bullets:["One-click approval workflow with full carrier context and margin analysis","Autopilot mode: books within rules, escalates exceptions only","Co-pilot mode: rep reviews carrier options and approves in real time","Instant 'Join Call' to take over any live carrier conversation"],
+      conversation:[
+        { from:"AI",color:C.navy,text:"4 carriers qualified for ATL→MIA reefer load. Best match: Heartland Transport at $3,000, reefer available Monday, compliance verified. Margin: 18%." },
+        { from:"D",color:C.green,text:"Book Heartland at $3,000." },
+        { from:"AI",color:C.navy,text:"Carrier booked. Rate confirmation sent. Load updated in TMS. Dispatch notification sent to carrier. Confirmation #BK-91824." },
+      ]},
+  ];
   return (
     <>
       <div style={{ background:`linear-gradient(135deg,${C.navyDeep},${C.navy})`,padding:"140px clamp(1.5rem,6vw,6rem) 60px",textAlign:"center" }}>
         <div style={{ maxWidth:1300,margin:"0 auto" }}>
           <div style={{ fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.12em",color:"rgba(255,255,255,0.5)",marginBottom:16 }}>For Brokers/3PLs & Shippers</div>
-          <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>AI Agent for load booking for <Em>Carrier Sales Reps & Logistics Teams</Em></h1>
+          <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>AI Agent for load booking for <Em>Carrier Sales & Logistics Teams</Em></h1>
           <p style={{ fontSize:18,color:C.midGray,maxWidth:650,margin:"0 auto 32px",lineHeight:1.6 }}>Cover more loads at better margins — without the phone tag. AI makes outbound calls to carriers, handles inbound carrier calls, and manages email to collect capacity, negotiate rates, and surface the best-fit options.</p>
-          <Btn primary onClick={onCta} style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn>
+          <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer"><Btn primary style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn></a>
         </div>
       </div>
 
       {/* New metrics */}
       <Section style={{ paddingTop:"clamp(3rem,5vw,5rem)",paddingBottom:0 }}>
         <Stats items={[
-          { value:"$50–$150",label:"Higher revenue per load" },
           { value:"2–3×",label:"More loads booked" },
           { value:"10×",label:"More options evaluated" },
           { value:"100%",label:"Calls handled" },
@@ -567,7 +655,13 @@ function BrokersShippersPage({ onCta, formRef, setPage }) {
           { title:"Live Transcription & Structuring",desc:"Every call and email captured and organized into carrier cards for side-by-side comparison." },
           { title:"Negotiation & Booking",desc:"Counters within your guardrails. Confirms loads autonomously or routes to rep for one-click approval. Reps can join any call instantly." },
         ]}/>
-        <div style={{ marginTop:24 }}><Btn onClick={() => { setPage(PAGES.BROKER_WF); window.scrollTo(0,0); }}>See Detailed Workflows →</Btn></div>
+      </Section>
+      <Divider/>
+      <Section>
+        <SectionLabel>Detailed Workflows</SectionLabel>
+        <SectionTitle>How the AI agent fits into <Em>every step</Em></SectionTitle>
+        <WorkflowTabs tabs={brokerWfTabs} activeTab={wfTab} setActiveTab={setWfTab} />
+        <WorkflowDetail step={brokerWfTabs[wfTab]} />
       </Section>
 
       <Divider/>
@@ -622,14 +716,14 @@ function BrokersShippersPage({ onCta, formRef, setPage }) {
       <Divider/>
       <Section style={{ textAlign:"center" }}>
         <SectionLabel>Trusted By</SectionLabel>
-        <SectionTitle>Brokers, 3PLs & shippers use <Em>Channel19</Em></SectionTitle>
+        <SectionTitle>Brokers, 3PLs & Shippers use <Em>Channel19</Em></SectionTitle>
         <div style={{ display:"flex",flexWrap:"wrap",justifyContent:"center",alignItems:"center",gap:"clamp(24px,4vw,48px)",marginTop:32 }}>
           {[
-            { src:"logo-kam-way.png",alt:"Kam-Way Transportation",h:40 },
+            { src:"logo-kam-way.png",alt:"Kam-Way Transportation",h:44 },
             { src:"logo-transjet.png",alt:"TransJet Cargo",h:36 },
-            { src:"logo-grtm.avif",alt:"GRTM",h:36 },
+            { src:"logo-grtm.png",alt:"GRTM",h:40 },
           ].map((logo,i) => (
-            <img key={i} src={logo.src} alt={logo.alt} style={{ height:logo.h,objectFit:"contain",opacity:0.85,filter:"grayscale(30%)",transition:"all 0.3s" }} />
+            <img key={i} src={logo.src} alt={logo.alt} style={{ height:logo.h,objectFit:"contain",opacity:0.7,filter:"grayscale(100%)",transition:"all 0.3s" }} onMouseOver={e=>{e.target.style.opacity="1";e.target.style.filter="grayscale(0%)"}} onMouseOut={e=>{e.target.style.opacity="0.7";e.target.style.filter="grayscale(100%)"}} />
           ))}
         </div>
       </Section>
@@ -698,13 +792,13 @@ function WorkflowDetail({ step, videoSrc, videoTitle }) {
 }
 
 // ═══ CARRIER WORKFLOWS PAGE ═══
-function CarrierWorkflowsPage({ setPage, onCta, formRef }) {
+function CarrierWorkflowsPage({ setPage, formRef }) {
   const [tab,setTab] = useState(0);
   const tabs = [
     { tab:"Outbound Calling", title:"Call brokers from load boards", desc:"The AI agent dials brokers listed on load boards, navigates IVRs, handles hold times, and gathers complete load details — all without dispatcher intervention.",
       bullets:["Dials multiple brokers in parallel from DAT, Truckstop, 123Loadboard","Navigates IVRs and waits on hold automatically","Collects origin/destination, rate, equipment, weight, appointment times","Structures every detail into load cards for comparison"],
       conversation:[
-        { from:"AI",color:C.navy,text:"Dialing broker #4827 from DAT for CHI→DAL lane. 53' dry van, pickup tomorrow." },
+        { from:"AI",color:C.navy,text:"Dialing ABC Logistics from DAT for CHI→DAL lane. 53' dry van, pickup tomorrow." },
         { from:"AI",color:C.navy,text:"Connected. Navigating IVR... on hold... connected to freight desk." },
         { from:"B",color:C.navyMid,text:"Hey, yeah we've got that load. 42,000 lbs, pickup at 8am, delivering to Dallas Thursday. Rate is $2,850 all-in." },
         { from:"AI",color:C.navy,text:"Got it. Can we do $2,650? We've got a truck available in Chicago ready to roll." },
@@ -753,7 +847,7 @@ function CarrierWorkflowsPage({ setPage, onCta, formRef }) {
           <div style={{ fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.12em",color:"rgba(255,255,255,0.5)",marginBottom:16 }}>Carrier Workflows</div>
           <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>How the AI agent fits into <Em>every step</Em> of load booking</h1>
           <p style={{ fontSize:18,color:C.midGray,maxWidth:620,margin:"0 auto 32px",lineHeight:1.6 }}>From finding loads on load boards to booking and confirmation — see exactly how Channel19's AI agent handles each workflow for carrier dispatchers.</p>
-          <Btn primary onClick={onCta} style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn>
+          <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer"><Btn primary style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn></a>
         </div>
       </div>
 
@@ -791,13 +885,13 @@ function CarrierWorkflowsPage({ setPage, onCta, formRef }) {
 }
 
 // ═══ BROKER/SHIPPER WORKFLOWS PAGE ═══
-function BrokerWorkflowsPage({ setPage, onCta, formRef }) {
+function BrokerWorkflowsPage({ setPage, formRef }) {
   const [tab,setTab] = useState(0);
   const tabs = [
     { tab:"Outbound Calling", title:"Call carriers from your tools", desc:"The AI agent dials carriers from your TMS, load boards, and compliance tools — collecting capacity, equipment details, and rates at scale.",
       bullets:["Dials carriers in parallel from your TMS, load boards, and compliance tools","Navigates IVRs, handles hold times automatically","Collects capacity, lane fit, equipment, and rate details","Structures every interaction into carrier cards for comparison"],
       conversation:[
-        { from:"AI",color:C.navy,text:"Dialing carrier #8821 for open load ATL→MIA. Reefer, 38K lbs, pickup Monday." },
+        { from:"AI",color:C.navy,text:"Dialing ABC Trucking for open load ATL→MIA. Reefer, 38K lbs, pickup Monday." },
         { from:"AI",color:C.navy,text:"Connected to dispatch. Collecting capacity details..." },
         { from:"C",color:"#F59E0B",text:"Yeah, we have a reefer available in Atlanta. What's the rate?" },
         { from:"AI",color:C.navy,text:"We're offering $2,900 for ATL→MIA, reefer, pickup Monday 6am, deliver Wednesday." },
@@ -849,7 +943,7 @@ function BrokerWorkflowsPage({ setPage, onCta, formRef }) {
           <div style={{ fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.12em",color:"rgba(255,255,255,0.5)",marginBottom:16 }}>Broker, 3PL & Shipper Workflows</div>
           <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2.5rem,5vw,4rem)",fontWeight:400,color:C.white,lineHeight:1.08,marginBottom:16 }}>How the AI agent fits into <Em>every step</Em> of carrier sales</h1>
           <p style={{ fontSize:18,color:C.midGray,maxWidth:620,margin:"0 auto 32px",lineHeight:1.6 }}>From sourcing carriers to booking and confirmation — see exactly how Channel19's AI agent handles each workflow for carrier sales reps and logistics teams.</p>
-          <Btn primary onClick={onCta} style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn>
+          <a href="https://calendly.com/tonysingh/" target="_blank" rel="noopener noreferrer"><Btn primary style={{ background:C.white,color:C.navy }}>Book a Demo →</Btn></a>
         </div>
       </div>
 
@@ -890,17 +984,125 @@ function BrokerWorkflowsPage({ setPage, onCta, formRef }) {
 export default function App() {
   const [page, setPage] = useState(PAGES.HOME);
   const formRef = useRef(null);
-  const scrollToForm = () => formRef.current?.scrollIntoView({ behavior:"smooth",block:"start" });
   return (
     <div style={{ fontFamily:C.sans,background:C.offWhite,color:C.navy,minHeight:"100vh",overflowX:"hidden" }}>
       <style>{globalCSS}</style>
-      <Nav page={page} setPage={setPage} onCta={scrollToForm}/>
-      {page===PAGES.HOME && <HomePage setPage={setPage} onCta={scrollToForm} formRef={formRef}/>}
-      {page===PAGES.CARRIERS && <CarriersPage onCta={scrollToForm} formRef={formRef} setPage={setPage}/>}
-      {page===PAGES.BROKERS && <BrokersShippersPage onCta={scrollToForm} formRef={formRef} setPage={setPage}/>}
-      {page===PAGES.CARRIER_WF && <CarrierWorkflowsPage setPage={setPage} onCta={scrollToForm} formRef={formRef}/>}
-      {page===PAGES.BROKER_WF && <BrokerWorkflowsPage setPage={setPage} onCta={scrollToForm} formRef={formRef}/>}
+      <Nav page={page} setPage={setPage}/>
+      {page===PAGES.HOME && <HomePage setPage={setPage} formRef={formRef}/>}
+      {page===PAGES.CARRIERS && <CarriersPage formRef={formRef} setPage={setPage}/>}
+      {page===PAGES.BROKERS && <BrokersShippersPage formRef={formRef} setPage={setPage}/>}
+      {page===PAGES.CARRIER_WF && <CarrierWorkflowsPage setPage={setPage} formRef={formRef}/>}
+      {page===PAGES.BROKER_WF && <BrokerWorkflowsPage setPage={setPage} formRef={formRef}/>}
+      {page===PAGES.TERMS && <TermsPage />}
+      {page===PAGES.PRIVACY && <PrivacyPage />}
       <Footer setPage={setPage}/>
+    </div>
+  );
+}
+
+// ═══ TERMS OF USE PAGE ═══
+function TermsPage() {
+  const legalStyle = { maxWidth:800,margin:"0 auto",padding:"140px clamp(1.5rem,6vw,4rem) 80px",fontFamily:C.sans,color:C.navyMid,lineHeight:1.75,fontSize:15 };
+  const h2s = { fontFamily:C.serif,fontSize:22,fontWeight:600,color:C.navy,marginTop:40,marginBottom:12 };
+  const ps = { marginBottom:16 };
+  return (
+    <div style={legalStyle}>
+      <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2rem,4vw,3rem)",fontWeight:400,color:C.navy,marginBottom:24 }}>Terms of Use</h1>
+
+      <p style={ps}>This Terms of Service Agreement (the "Agreement") describes the terms by which "Channel19, Inc." offers to you, as a Carrier, access to its website www.channel19.io (the "Site") and the associated mobile software application platform owned and operated by Channel19 ("Mobile App"). Channel19, Inc. ("Channel19") owns and operates the Channel19 proprietary software platform (the "Platform") that helps small independent owner-operators and trucking companies in finding the best loads for their trucks. It further helps with booking, tracking and management of loads (each, a "Load"), booked through the Platform and related trucking operations.</p>
+
+      <p style={ps}>This terms of service agreement (the "Agreement") sets forth the legally binding terms and conditions governing the access and use of the Platform, Services, Content, Load Data (as each term is defined in Sections 5.1), and any related services provided by Channel19 in connection with the use of any of the foregoing (collectively, the "Channel19 Service"). By booking a load (a "transaction"), registering an account to access and/or use the Channel19 service (an "account") and/or otherwise accessing and/or utilizing the Channel19 service (or any part thereof): you acknowledge that you have read, understand, and agree to be bound by all of the terms and conditions of this agreement; you represent that you have the authority to enter into this agreement on behalf of the entity or person identified on the account and in respect of whom the Channel19 service was ordered and/or the transaction was placed (such entity or person, "customer"), and to bind customer to the terms of this agreement; and you agree that the customer is entering into this agreement with Channel19, Inc.</p>
+
+      <p style={ps}>If you do not agree with all of the terms of this agreement, or do not have such authority to bind customer to the terms of this agreement, do not create an account, book a transaction, or otherwise access and/or use the Channel19 service or any part thereof.</p>
+
+      <p style={ps}>Customer agrees to provide and maintain up to date information that is true, accurate, current, and complete. Customer agrees that Customer will not (i) create an Account using a false identity or fictitious name or information, and/or (ii) create an Account or use the Channel19 Service if Customer has been previously removed or banned by Channel19 from use of the Channel19 Service, or any part thereof. Customer understands and agrees that Customer is solely responsible for maintaining the confidentiality of and protecting Customer's and its Authorized User's passwords for the Account. Customer is solely responsible for any activity originating from its Account, regardless of whether such activity is authorized by Customer. Customer agrees to notify Channel19 immediately of any unauthorized use of its Account.</p>
+
+      <p style={ps}>Channel19 reserves the right to limit the number of Accounts that can be created from any one (1) computer or mobile device and the number of computer or mobile devices that can access an individual Account. "Authorized Users" means Customer's employees, contractors, and/or agents of Customer, including, without limitation, drivers of trucks and/or vehicle owned and/or operated by Customer, that Customer has authorized to access and use the Channel19 Service and/or that transport Loads on behalf of Customer.</p>
+
+      <h2 style={h2s}>Channel19 Service</h2>
+      <p style={ps}>Channel19 reserves the rights to either temporarily or permanently modify, suspend or discontinue the Channel19 Service (or any part thereof) with or without notice. Customer agrees that Channel19 will not be liable to Customer or to any third party for any modification, suspension or discontinuance of the Channel19 Service (or any part thereof).</p>
+
+      <p style={ps}>Customer agrees to provide reasonable assistance and support to Channel19 in the provision of the Channel19 Service and/or performance of Services under this Agreement. Customer acknowledges and agrees that Channel19's ability to successfully provide the Channel19 Service and perform Services under this Agreement in a timely manner is contingent upon performance by Customer of the obligations set forth in this Agreement, and Channel19 shall have no liability for deficiencies in the performance and/or delivery of the Channel19 Service (or any part thereof) resulting from any act or omission of Customer, or any of its employees, contractors, or agents.</p>
+
+      <p style={ps}>Customer shall not permit any person other than Authorized Users to access and use the Channel19 Service (or any part thereof), and shall ensure that Authorized Users use the Channel19 Service solely in accordance with this Agreement. Customer acknowledges and agrees that Customer is solely responsible for its Authorized Users, and any breach of this Agreement by any Authorized User will be deemed a breach by Customer.</p>
+
+      <p style={ps}>Customer understands and agrees that Channel19 may collect data and information, which may include Personal Data (as defined in Section 2.4), in connection with Customer's and/or its Authorized User's use of the Channel19 Service (collectively, "Customer Data"). Customer grants to Channel19 a non-exclusive, royalty-free, fully-paid, worldwide license to use and process Customer Data as reasonably necessary for Channel19 to provide Customer the Channel19 Service hereunder.</p>
+
+      <p style={ps}>Customer acknowledges and agrees that, as between the parties, with respect to the collection, transmission, disclosure, processing and/or use of any personally identifiable data and/or information through or in connection with the use of the Channel19 Service ("Personal Data"), that is subject to any applicable laws, rules, or regulations pertaining to data privacy or data security ("Data Protection Laws"), Customer is the data controller and Channel19 is merely a data processor and/or service provider as such terms are defined pursuant to Data Protection Laws. Personal Data provided to, or collected by, Channel19 in connection with Channel19 Service shall only be used in accordance with this Agreement and the Channel19 Privacy Policy.</p>
+
+      <p style={ps}>Channel19 does not conduct any verification of our Partners Loads through the Platform. Channel19 does not represent, warrant or guarantee the Partner's identity and whether the Partner is trustworthy. Customer understands and agrees that Customer's and its Authorized Users' interactions and dealings with Partners in connection with any Transactions, are solely between Customer and such Partner. Customer is solely responsible and liable for, and Channel19 shall not be a party to or responsible for, any Transactions booked by or on behalf of Customer.</p>
+
+      <h2 style={h2s}>Intellectual Property Ownership</h2>
+      <p style={ps}>All intellectual property rights in and to the Channel19 Service, including but not limited to patents, copyrights, trademarks, and trade secrets, are and shall remain the sole and exclusive property of Channel19.</p>
+
+      <h2 style={h2s}>Notices</h2>
+      <p style={ps}>All notices permitted or required under this Agreement shall be in writing and shall be delivered by personal delivery, e-mail, or by certified or registered mail, return receipt requested. Notices shall be sent to Customer at the email address or other address Channel19 has on file for Customer, and to Channel19 at tony@channel19.io; Subject Line: Legal Notice – Customer Terms of Service Agreement.</p>
+
+      <h2 style={h2s}>Other Provisions</h2>
+      <p style={ps}>Customer shall not assign this Agreement or transfer any of its rights hereunder, or delegate the performance of any of its duties or obligations arising under this Agreement, whether by merger, acquisition, sale of assets, operation of law, or otherwise, without the prior written consent of Channel19. Any purported assignment in violation of the preceding sentence is null and void.</p>
+
+      <p style={ps}>No waiver will be implied from conduct or failure to enforce rights. If any term of this Agreement is found invalid or unenforceable that term will be enforced to the maximum extent permitted by law and the remainder of this Agreement will remain in full force. The parties are independent contractors. This Agreement represents the entire agreement between the parties relating to its subject matter and supersedes all prior and/or contemporaneous representations, discussions, negotiations and agreements, whether written or oral.</p>
+
+      <h2 style={h2s}>Agreement Changes</h2>
+      <p style={ps}>Channel19 reserves the right to update or modify this Agreement at any time. Channel19 agrees to notify Customer of any material changes to the terms of this Agreement by posting a notice of the changes on our website. Customer's continued use of the Channel19 Service after Channel19 has posted the updated Agreement signifies Customer's acknowledgment and agreement to be bound by the revised Agreement.</p>
+
+      <p style={{ ...ps,marginTop:40,fontSize:13,color:C.darkGray }}>Copyright © {new Date().getFullYear()} Channel19, Inc. All Rights Reserved.</p>
+    </div>
+  );
+}
+
+// ═══ PRIVACY POLICY PAGE ═══
+function PrivacyPage() {
+  const legalStyle = { maxWidth:800,margin:"0 auto",padding:"140px clamp(1.5rem,6vw,4rem) 80px",fontFamily:C.sans,color:C.navyMid,lineHeight:1.75,fontSize:15 };
+  const h2s = { fontFamily:C.serif,fontSize:22,fontWeight:600,color:C.navy,marginTop:40,marginBottom:12 };
+  const h3s = { fontSize:16,fontWeight:600,color:C.navy,marginTop:24,marginBottom:8 };
+  const ps = { marginBottom:16 };
+  return (
+    <div style={legalStyle}>
+      <h1 style={{ fontFamily:C.serif,fontSize:"clamp(2rem,4vw,3rem)",fontWeight:400,color:C.navy,marginBottom:24 }}>Privacy Policy</h1>
+
+      <p style={ps}>Channel19 provides an online and mobile platform to connect Freight Sources (Brokers) with Carriers for the transportation of cargo. Freight Sources can submit a request for the transportation of cargo ("Load"), Carriers can accept such requests and assign Drivers to fulfill them, and Freight Sources, Carriers, and Drivers can track such requests. This Privacy Policy describes how Channel19 ("we" or "us") collects, uses, and discloses information when you use our websites, mobile applications, and other online products and services (collectively, the "Services") or when you otherwise interact with us.</p>
+
+      <p style={ps}>We may change this Privacy Policy from time to time. If we make changes, we will notify you by revising the date at the top of the policy and, in some cases, we may provide you with additional notice. We encourage you to review the Privacy Policy whenever you access the Services to stay informed about our information practices.</p>
+
+      <h2 style={h2s}>Collection of Information</h2>
+
+      <h3 style={h3s}>Information You Provide to Us</h3>
+      <p style={ps}>We collect information you provide directly to us. For example, we collect information when you fill out a form, request to be a Carrier or a Freight Source, log into your Channel19 account, submit or accept a Load request, request customer support, or otherwise communicate with us. This information may include name, company name, email address, phone number, payment information, insurance information, service ratings and reviews, and any other information you choose to provide.</p>
+
+      <h3 style={h3s}>Information We Collect When You Use the Services</h3>
+      <p style={ps}>When you use the Services, we collect additional information about Load requests and how they are fulfilled, including the following:</p>
+      <p style={ps}><strong>Freight Sources:</strong> If you are a Freight Source and submit a Load request, we collect certain details related to your submission, including the date and time of your request, origin and destination addresses, description of the cargo being transported, rate, and other information about the Load.</p>
+      <p style={ps}><strong>Carriers:</strong> If you are a Carrier, we collect information on your bids on Load requests as well as information about your acceptance and fulfillment of any Load requests, including vehicle and driver information.</p>
+      <p style={ps}><strong>Drivers:</strong> If you are a driver transporting cargo on behalf of a Carrier, we may collect information on your travel to fulfill a Load request. We also collect information about your location and about files you upload.</p>
+      <p style={ps}><strong>Location Information:</strong> Providing Services to our users requires the collection of precise location information. When you download and use our mobile applications, we will ask for permission to access your precise location. We use this information to track Loads, and also to understand your typical driving patterns to offer Carriers jobs that are more likely to be relevant to them and their Drivers.</p>
+
+      <h3 style={h3s}>Photos</h3>
+      <p style={ps}>Our Services may ask you to photograph and upload to the Services certain documents related to the fulfillment of a Load request, such as certificates of insurance and other legal documents, bills of lading, and proofs of delivery. You may also be able to upload pictures of cargo that you carry.</p>
+
+      <h3 style={h3s}>Information We Collect Automatically</h3>
+      <p style={ps}><strong>Log Information:</strong> We collect log information about your use of the Services, including the type of browser or app version you use, access times, pages viewed, your IP address, and the page you visited before navigating to our Services.</p>
+      <p style={ps}><strong>Device Information:</strong> We collect information about the computer or mobile device you use to access our Services, including the hardware model, operating system and version, device and app identifiers, and mobile network information.</p>
+      <p style={ps}><strong>Cookies and Tracking Technologies:</strong> We use various technologies to collect information, including cookies and web beacons. Cookies are small data files stored on your hard drive or in device memory that help us improve our Services and your experience, see which areas and features of our Services are popular, and count visits.</p>
+
+      <h2 style={h2s}>Use of Information</h2>
+      <p style={ps}>We may also obtain information from other sources and combine that with information we collect directly. These third parties include verification services, credit bureaus, and publicly available sources.</p>
+      <p style={ps}>We use the information we collect in order to provide and improve our Services, including to connect Freight Sources with Carriers, match Drivers with Load requests, facilitate transportation of cargo, process payments, and confirm delivery. We use your phone number to call you and send you SMS messages about potential and current Loads. We may also use information to: send you technical notices, updates, security alerts and administrative messages; respond to your comments, questions, and requests; communicate with you about products, services, offers, and promotions; monitor and analyze trends, usage, and activities; detect, investigate, and prevent fraudulent transactions and other illegal activities; personalize and improve the Services; and carry out any other purpose described to you at the time the information was collected.</p>
+
+      <h2 style={h2s}>Sharing of Information</h2>
+      <p style={ps}>Depending on how you use our Services, we may share information about you with other users of the Services. For example, if you are a driver, we share your name, vehicle information, precise or approximate location, and certain contact information with Freight Sources involved in the Load request you helped to fulfill.</p>
+      <p style={ps}>We may also share information about you with third parties, such as: vendors and service providers who carry out work on our behalf; in response to legal requests; to protect the rights, property, and safety of Channel19 or others; in connection with any merger, sale of company assets, or acquisition; between Channel19 and our affiliates; and with your consent or at your direction. We may also share aggregated or de-identified information, which cannot reasonably be used to identify you.</p>
+
+      <h2 style={h2s}>Advertising and Analytics</h2>
+      <p style={ps}>We may allow others to provide analytics services and serve advertisements on our behalf across the Internet and in applications. These entities may use cookies, web beacons, device identifiers, and other technologies to collect information about your use of the Services. For more information about interest-based ads, or to opt out, please visit www.aboutads.info/choices.</p>
+
+      <h2 style={h2s}>Security</h2>
+      <p style={ps}>Channel19 takes reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration, and destruction.</p>
+
+      <h2 style={h2s}>Contact Us</h2>
+      <p style={ps}>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:tony@channel19.io" style={{ color:C.navy,textDecoration:"underline" }}>tony@channel19.io</a></p>
+
+      <p style={{ ...ps,marginTop:40,fontSize:13,color:C.darkGray }}>Copyright © {new Date().getFullYear()} Channel19, Inc. All Rights Reserved.</p>
     </div>
   );
 }
