@@ -179,61 +179,6 @@ function TestimonialCards({ items }) {
   );
 }
 
-function LeadForm({ source }) {
-  const [done,setDone] = useState(false);
-  const [sending,setSending] = useState(false);
-  const [f,setF] = useState({ firstName:"",lastName:"",email:"",phone:"",company:"",role:"",message:"" });
-  const up = (k) => (e) => setF({...f,[k]:e.target.value});
-  const inp = { background:C.offWhite,border:"1px solid rgba(27,42,74,0.1)",borderRadius:10,padding:"14px 16px",fontFamily:C.sans,fontSize:14,color:C.navy,width:"100%",outline:"none" };
-  const CALENDLY = "https://calendly.com/tonysingh/";
-  const submit = async () => {
-    if(!f.firstName||!f.email||!f.company) return;
-    setSending(true);
-    try {
-      await fetch("https://formspree.io/f/tony@channel19.io", {
-        method:"POST",
-        headers:{"Content-Type":"application/json","Accept":"application/json"},
-        body:JSON.stringify({...f,source,_subject:`New Demo Request from ${f.firstName} ${f.lastName} (${f.company}) — ${source}`})
-      });
-    } catch(e) { console.log("Form submission error:",e); }
-    setSending(false); setDone(true);
-  };
-  if(done) return (
-    <div style={{ background:C.white,border:"1px solid rgba(27,42,74,0.08)",borderRadius:20,padding:"3rem 2rem",textAlign:"center",boxShadow:"0 4px 24px rgba(27,42,74,0.08)" }}>
-      <div style={{ width:64,height:64,background:"rgba(34,197,94,0.1)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,margin:"0 auto 16px",color:C.green }}>✓</div>
-      <h3 style={{ fontFamily:C.serif,fontSize:24,color:C.navy,marginBottom:8 }}>Thanks! We'll be in touch.</h3>
-      <p style={{ color:C.darkGray,fontSize:14,marginBottom:20 }}>Our team will reach out within 24 hours. Want to schedule right now?</p>
-      <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={{ display:"inline-block",background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:15,padding:"12px 28px",borderRadius:10,textDecoration:"none" }}>Schedule on Calendly →</a>
-    </div>
-  );
-  return (
-    <div style={{ background:C.white,border:"1px solid rgba(27,42,74,0.08)",borderRadius:20,padding:"clamp(1.5rem,3vw,2.5rem)",boxShadow:"0 4px 24px rgba(27,42,74,0.08)" }}>
-      <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:14 }}>
-        <input style={inp} placeholder="First name *" value={f.firstName} onChange={up("firstName")} />
-        <input style={inp} placeholder="Last name" value={f.lastName} onChange={up("lastName")} />
-      </div>
-      <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:14 }}>
-        <input style={inp} type="email" placeholder="Work email *" value={f.email} onChange={up("email")} />
-        <input style={inp} placeholder="Phone" value={f.phone} onChange={up("phone")} />
-      </div>
-      <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:14 }}>
-        <input style={inp} placeholder="Company *" value={f.company} onChange={up("company")} />
-        <select style={{...inp,appearance:"none",cursor:"pointer"}} value={f.role} onChange={up("role")}>
-          <option value="">I am a…</option>
-          <option value="carrier">Carrier / Fleet Owner</option>
-          <option value="broker">Broker / 3PL</option>
-          <option value="shipper">Shipper</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <textarea style={{...inp,resize:"vertical",minHeight:90,marginBottom:14,display:"block"}} placeholder="Anything else?" value={f.message} onChange={up("message")} />
-      <button onClick={submit} disabled={sending||!f.firstName||!f.email||!f.company}
-        style={{ width:"100%",background:C.navy,color:C.white,fontFamily:C.sans,fontWeight:600,fontSize:16,padding:16,borderRadius:12,border:"none",cursor:"pointer",opacity:(!f.firstName||!f.email||!f.company)?0.5:1 }}>
-        {sending?"Sending…":"Get Your Demo →"}
-      </button>
-    </div>
-  );
-}
 
 function ContactBlock({ label,title,desc,source,formRef }) {
   return (
@@ -335,7 +280,7 @@ function HomePage({ setPage, formRef }) {
                 <span style={{ color:C.green }}>connected</span> → Navigating IVR… hold music…<br/>
                 <span style={{ color:"#60A5FA" }}>agent</span> → "53' dry van, rate to Dallas?"<br/>
                 <span style={{ color:"#F59E0B" }}>broker</span> → "$2,850 all-in, pickup tomorrow 8am"<br/>
-                <span style={{ color:"#60A5FA" }}>agent</span> → Negotiating → <span style={{ color:C.green }}>$2,650 agreed</span><br/>
+                <span style={{ color:"#60A5FA" }}>agent</span> → Negotiating → <span style={{ color:C.green }}>$2,950 agreed</span><br/>
                 <span style={{ color:C.white }}>dispatcher</span> → ✓ <span style={{ color:C.green }}>Approved. Load booked.</span><br/>
                 <span style={{ color:"#A78BFA" }}>inbound</span> → Carrier calling about DAL→HOU lane<br/>
                 <span style={{ color:"#60A5FA" }}>agent</span> → Qualifying… capacity confirmed ✓<br/>
@@ -438,9 +383,9 @@ function CarriersPage({ formRef, setPage }) {
         { from:"AI",color:C.navy,text:"Dialing ABC Logistics from DAT for CHI→DAL lane. 53' dry van, pickup tomorrow." },
         { from:"AI",color:C.navy,text:"Connected. Navigating IVR... on hold... connected to freight desk." },
         { from:"B",color:C.navyMid,text:"Hey, yeah we've got that load. 42,000 lbs, pickup at 8am, delivering to Dallas Thursday. Rate is $2,850 all-in." },
-        { from:"AI",color:C.navy,text:"Got it. Can we do $2,650? We've got a truck available in Chicago ready to roll." },
-        { from:"B",color:C.navyMid,text:"I can do $2,700. That's the best I can offer." },
-        { from:"AI",color:C.navy,text:"$2,700 works. Sending to dispatcher for approval." },
+        { from:"AI",color:C.navy,text:"We'd need at least $3,050 for that lane. We've got a truck in Chicago ready to go tomorrow." },
+        { from:"B",color:C.navyMid,text:"I can stretch to $2,950. That's the best I can do." },
+        { from:"AI",color:C.navy,text:"$2,950 works. Sending to dispatcher for approval." },
       ]},
     { tab:"Inbound Calls", title:"Answer broker calls 24/7", desc:"When brokers call with load offers, the AI agent picks up instantly — qualifies the load, collects all details, and routes the opportunity to your dispatcher.",
       bullets:["Answers inbound broker calls instantly — no missed opportunities","Qualifies loads against your lane preferences and equipment","Collects full load details and creates structured load cards","Routes qualified loads to dispatcher with one-click accept/decline"],
@@ -460,17 +405,17 @@ function CarriersPage({ formRef, setPage }) {
     { tab:"Negotiation", title:"Negotiate rates within your guardrails", desc:"The AI agent negotiates on calls and via email using rules you set — floor/ceiling prices, target margins, and lane-specific preferences.",
       bullets:["Negotiates within dispatcher-defined rate guardrails","Applies lane-specific rules and margin targets","Counters intelligently based on market context","Escalates to dispatcher when outside parameters"],
       conversation:[
-        { from:"B",color:C.navyMid,text:"Best I can do is $2,900 for that Dallas load." },
-        { from:"AI",color:C.navy,text:"Our target for this lane is $2,600–$2,750. Can you come down to $2,700?" },
-        { from:"B",color:C.navyMid,text:"$2,750 is my floor." },
-        { from:"AI",color:C.navy,text:"$2,750 is within range. Confirming with dispatcher now." },
+        { from:"B",color:C.navyMid,text:"Best I can offer is $2,800 for that Dallas load." },
+        { from:"AI",color:C.navy,text:"Our target for this lane is $3,000–$3,200. Can you come up to $3,100?" },
+        { from:"B",color:C.navyMid,text:"$2,950 is the most I can do." },
+        { from:"AI",color:C.navy,text:"$2,950 is within range. Confirming with dispatcher now." },
         { from:"D",color:C.green,text:"✓ Approved. Book it." },
-        { from:"AI",color:C.navy,text:"Load booked at $2,750. Rate confirmation sent. Pushing to TMS." },
+        { from:"AI",color:C.navy,text:"Load booked at $2,950. Rate confirmation sent. Pushing to TMS." },
       ]},
     { tab:"Booking & Handoff", title:"Book loads and keep dispatchers in control", desc:"The AI agent books loads autonomously within your rules or sends to the dispatcher for one-click approval. Dispatchers can join any live call instantly.",
       bullets:["One-click approval workflow with full load context","Autopilot mode: books within rules, escalates exceptions","Co-pilot mode: dispatcher reviews and approves in real time","Instant 'Join Call' button to take over any conversation"],
       conversation:[
-        { from:"AI",color:C.navy,text:"3 load options ready for review. Best match: CHI→DAL at $2,700, 53' dry van, pickup 8am tomorrow. Margin: +12% above target." },
+        { from:"AI",color:C.navy,text:"3 load options ready for review. Best match: CHI→DAL at $2,950, 53' dry van, pickup 8am tomorrow. Margin: +12% above target." },
         { from:"D",color:C.green,text:"Option 1 looks good. Approve." },
         { from:"AI",color:C.navy,text:"Load booked. Rate confirmation sent to broker. Load details pushed to TMS. Confirmation #TL-48271." },
       ]},
@@ -801,9 +746,9 @@ function CarrierWorkflowsPage({ setPage, formRef }) {
         { from:"AI",color:C.navy,text:"Dialing ABC Logistics from DAT for CHI→DAL lane. 53' dry van, pickup tomorrow." },
         { from:"AI",color:C.navy,text:"Connected. Navigating IVR... on hold... connected to freight desk." },
         { from:"B",color:C.navyMid,text:"Hey, yeah we've got that load. 42,000 lbs, pickup at 8am, delivering to Dallas Thursday. Rate is $2,850 all-in." },
-        { from:"AI",color:C.navy,text:"Got it. Can we do $2,650? We've got a truck available in Chicago ready to roll." },
-        { from:"B",color:C.navyMid,text:"I can do $2,700. That's the best I can offer." },
-        { from:"AI",color:C.navy,text:"$2,700 works. Sending to dispatcher for approval." },
+        { from:"AI",color:C.navy,text:"We'd need at least $3,050 for that lane. We've got a truck in Chicago ready to go tomorrow." },
+        { from:"B",color:C.navyMid,text:"I can stretch to $2,950. That's the best I can do." },
+        { from:"AI",color:C.navy,text:"$2,950 works. Sending to dispatcher for approval." },
       ]},
     { tab:"Inbound Calls", title:"Answer broker calls 24/7", desc:"When brokers call with load offers, the AI agent picks up instantly — qualifies the load, collects all details, and routes the opportunity to your dispatcher.",
       bullets:["Answers inbound broker calls instantly — no missed opportunities","Qualifies loads against your lane preferences and equipment","Collects full load details and creates structured load cards","Routes qualified loads to dispatcher with one-click accept/decline"],
@@ -823,17 +768,17 @@ function CarrierWorkflowsPage({ setPage, formRef }) {
     { tab:"Negotiation", title:"Negotiate rates within your guardrails", desc:"The AI agent negotiates on calls and via email using rules you set — floor/ceiling prices, target margins, and lane-specific preferences.",
       bullets:["Negotiates within dispatcher-defined rate guardrails","Applies lane-specific rules and margin targets","Counters intelligently based on market context","Escalates to dispatcher when outside parameters"],
       conversation:[
-        { from:"B",color:C.navyMid,text:"Best I can do is $2,900 for that Dallas load." },
-        { from:"AI",color:C.navy,text:"Our target for this lane is $2,600–$2,750. Can you come down to $2,700?" },
-        { from:"B",color:C.navyMid,text:"$2,750 is my floor." },
-        { from:"AI",color:C.navy,text:"$2,750 is within range. Confirming with dispatcher now." },
+        { from:"B",color:C.navyMid,text:"Best I can offer is $2,800 for that Dallas load." },
+        { from:"AI",color:C.navy,text:"Our target for this lane is $3,000–$3,200. Can you come up to $3,100?" },
+        { from:"B",color:C.navyMid,text:"$2,950 is the most I can do." },
+        { from:"AI",color:C.navy,text:"$2,950 is within range. Confirming with dispatcher now." },
         { from:"D",color:C.green,text:"✓ Approved. Book it." },
-        { from:"AI",color:C.navy,text:"Load booked at $2,750. Rate confirmation sent. Pushing to TMS." },
+        { from:"AI",color:C.navy,text:"Load booked at $2,950. Rate confirmation sent. Pushing to TMS." },
       ]},
     { tab:"Booking & Handoff", title:"Book loads and keep dispatchers in control", desc:"The AI agent books loads autonomously within your rules or sends to the dispatcher for one-click approval. Dispatchers can join any live call instantly.",
       bullets:["One-click approval workflow with full load context","Autopilot mode: books within rules, escalates exceptions","Co-pilot mode: dispatcher reviews and approves in real time","Instant 'Join Call' button to take over any conversation"],
       conversation:[
-        { from:"AI",color:C.navy,text:"3 load options ready for review. Best match: CHI→DAL at $2,700, 53' dry van, pickup 8am tomorrow. Margin: +12% above target." },
+        { from:"AI",color:C.navy,text:"3 load options ready for review. Best match: CHI→DAL at $2,950, 53' dry van, pickup 8am tomorrow. Margin: +12% above target." },
         { from:"D",color:C.green,text:"Option 1 looks good. Approve." },
         { from:"AI",color:C.navy,text:"Load booked. Rate confirmation sent to broker. Load details pushed to TMS. Confirmation #TL-48271." },
       ]},
